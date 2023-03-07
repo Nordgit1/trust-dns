@@ -7,7 +7,7 @@
 use std::{io, net::SocketAddr, sync::Arc, time::Duration};
 
 use futures_util::{future, lock::Mutex, StreamExt};
-use log::{debug, info, warn};
+use log::{debug, info};
 #[cfg(feature = "dns-over-rustls")]
 use rustls::{Certificate, PrivateKey};
 use tokio::{net, task::JoinHandle};
@@ -64,7 +64,7 @@ impl<T: RequestHandler> ServerFuture<T> {
                 while let Some(message) = buf_stream.next().await {
                     let message = match message {
                         Err(e) => {
-                            warn!("error receiving message on udp_socket: {}", e);
+                            debug!("error receiving message on udp_socket: {}", e);
                             continue;
                         }
                         Ok(message) => message,
@@ -622,7 +622,7 @@ impl<R: ResponseHandler> ResponseHandler for ReportingResponseHandler<R> {
         let id = self.request_header.id();
         let rid = response_info.id();
         if id != rid {
-            warn!("request id:{} does not match response id:{}", id, rid);
+            debug!("request id:{} does not match response id:{}", id, rid);
             debug_assert_eq!(id, rid, "request id and response id should match");
         }
 
@@ -748,10 +748,10 @@ pub(crate) async fn handle_request<R: ResponseHandler, T: RequestHandler>(
                 .await;
 
             if let Err(e) = result {
-                warn!("failed to return FormError to client: {}", e);
+                debug!("failed to return FormError to client: {}", e);
             }
         }
-        Err(e) => warn!("failed to read message: {}", e),
+        Err(e) => debug!("failed to read message: {}", e),
     }
 }
 

@@ -227,7 +227,7 @@ impl<C: DnsHandle<Error = ResolveError>, P: ConnectionProvider<Conn = C>> AsyncR
             #[cfg(not(feature = "dnssec"))]
             {
                 // TODO: should this just be a panic, or a pinned error?
-                warn!("validate option is only available with 'dnssec' feature");
+                debug!("validate option is only available with 'dnssec' feature");
                 either = LookupEither::Retry(client);
             }
         } else {

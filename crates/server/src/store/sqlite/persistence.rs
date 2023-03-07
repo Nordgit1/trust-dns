@@ -332,7 +332,7 @@ impl<'j> Iterator for JournalIter<'j> {
             }
             Ok(None) => None,
             Err(err) => {
-                error!("persistence error while iterating over journal: {}", err);
+                debug!("persistence error while iterating over journal: {}", err);
                 None
             }
         }

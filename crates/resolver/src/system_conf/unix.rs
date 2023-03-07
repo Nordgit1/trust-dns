@@ -80,7 +80,7 @@ fn into_resolver_config(
         });
     }
     if nameservers.is_empty() {
-        warn!("no nameservers found in config");
+        debug!("no nameservers found in config");
     }
 
     // search

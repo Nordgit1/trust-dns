@@ -9,7 +9,7 @@
 
 use std::{iter, mem, ops::Deref, sync::Arc};
 
-use log::{debug, warn};
+use log::debug;
 
 use crate::{
     error::*,
@@ -909,7 +909,7 @@ where
         additional_count.0 += count.0;
         additional_count.1 |= count.1;
     } else if header.response_code().high() > 0 {
-        warn!(
+        debug!(
             "response code: {} for request: {} requires EDNS but none available",
             header.response_code(),
             header.id()

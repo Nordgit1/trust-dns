@@ -20,7 +20,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use futures_channel::mpsc;
 use futures_util::stream::{Stream, StreamExt};
 use futures_util::{future::Future, ready, FutureExt};
-use log::{debug, warn};
+use log::debug;
 use rand;
 use rand::distributions::{Distribution, Standard};
 
@@ -199,7 +199,7 @@ where
     /// Closes all outstanding completes with a closed stream error
     fn stream_closed_close_all(&mut self, error: ProtoError) {
         if !self.active_requests.is_empty() {
-            warn!("stream {} error: {}", self.stream, error);
+            debug!("stream {} error: {}", self.stream, error);
         } else {
             debug!("stream {} error: {}", self.stream, error);
         }

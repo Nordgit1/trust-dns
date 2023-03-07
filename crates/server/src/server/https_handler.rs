@@ -38,7 +38,7 @@ pub(crate) async fn h2_handler<T, I>(
     let mut h2 = match server::handshake(io).await {
         Ok(h2) => h2,
         Err(err) => {
-            warn!("handshake error from {}: {}", src_addr, err);
+            debug!("handshake error from {}: {}", src_addr, err);
             return;
         }
     };
@@ -49,7 +49,7 @@ pub(crate) async fn h2_handler<T, I>(
         let (request, respond) = match next_request {
             Ok(next_request) => next_request,
             Err(err) => {
-                warn!("error accepting request {}: {}", src_addr, err);
+                debug!("error accepting request {}: {}", src_addr, err);
                 return;
             }
         };
@@ -61,7 +61,7 @@ pub(crate) async fn h2_handler<T, I>(
 
         match https_server::message_from(dns_hostname, request).await {
             Ok(bytes) => handle_request(bytes, src_addr, handler, responder).await,
-            Err(err) => warn!("error while handling request from {}: {}", src_addr, err),
+            Err(err) => debug!("error while handling request from {}: {}", src_addr, err),
         };
 
         // we'll continue handling requests from here.

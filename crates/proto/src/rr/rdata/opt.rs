@@ -21,7 +21,7 @@ use std::collections::HashMap;
 #[cfg(feature = "serde-config")]
 use serde::{Deserialize, Serialize};
 
-use log::warn;
+use log::debug;
 
 use crate::error::*;
 use crate::serialize::binary::*;
@@ -284,7 +284,7 @@ pub fn read(decoder: &mut BinDecoder<'_>, rdata_length: Restrict<u16>) -> ProtoR
     if state != OptReadState::ReadCode {
         // there was some problem parsing the data for the options, ignoring them
         // TODO: should we ignore all of the EDNS data in this case?
-        warn!("incomplete or poorly formatted EDNS options: {:?}", state);
+        debug!("incomplete or poorly formatted EDNS options: {:?}", state);
         options.clear();
     }
 

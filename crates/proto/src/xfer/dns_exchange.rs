@@ -14,7 +14,7 @@ use std::task::{Context, Poll};
 use futures_channel::mpsc;
 use futures_util::future::{Future, FutureExt};
 use futures_util::stream::{Peekable, Stream, StreamExt};
-use log::{debug, warn};
+use log::debug;
 
 use crate::error::*;
 use crate::xfer::dns_handle::DnsHandle;
@@ -179,7 +179,7 @@ where
                     return Poll::Ready(Ok(()));
                 }
                 Poll::Ready(Some(Err(err))) => {
-                    warn!("io_stream hit an error, shutting down: {}", err);
+                    debug!("io_stream hit an error, shutting down: {}", err);
 
                     return Poll::Ready(Err(err));
                 }
@@ -199,7 +199,7 @@ where
                     match serial_response.send_response(io_stream.send_message(dns_request)) {
                         Ok(()) => (),
                         Err(_) => {
-                            warn!("failed to associate send_message response to the sender");
+                            debug!("failed to associate send_message response to the sender");
                         }
                     }
                 }

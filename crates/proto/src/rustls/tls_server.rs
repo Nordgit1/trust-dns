@@ -51,7 +51,7 @@ pub fn read_key_from_pkcs8(path: &Path) -> ProtoResult<PrivateKey> {
     match keys.len() {
         0 => return Err(format!("no keys available in: {}", path.display()).into()),
         1 => (),
-        _ => warn!(
+        _ => debug!(
             "ignoring other than the first key in file: {}",
             path.display()
         ),

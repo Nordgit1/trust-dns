@@ -14,7 +14,7 @@ use futures_channel::oneshot;
 use futures_util::future::Future;
 use futures_util::ready;
 use futures_util::stream::{Fuse, Peekable, Stream, StreamExt};
-use log::{debug, warn};
+use log::debug;
 
 use crate::error::*;
 use crate::Time;
@@ -46,7 +46,7 @@ pub use self::serial_message::SerialMessage;
 /// Ignores the result of a send operation and logs and ignores errors
 fn ignore_send<M, E: Debug>(result: Result<M, E>) {
     if let Err(error) = result {
-        warn!("error notifying wait, possible future leak: {:?}", error);
+        debug!("error notifying wait, possible future leak: {:?}", error);
     }
 }
 

@@ -313,13 +313,13 @@ impl SqliteAuthority {
             let required_name = LowerName::from(require.name());
 
             if require.ttl() != 0 {
-                warn!("ttl must be 0 for: {:?}", require);
+                debug!("ttl must be 0 for: {:?}", require);
                 return Err(ResponseCode::FormErr);
             }
 
             let origin = self.origin();
             if !origin.zone_of(&require.name().into()) {
-                warn!("{} is not a zone_of {}", require.name(), origin);
+                debug!("{} is not a zone_of {}", require.name(), origin);
                 return Err(ResponseCode::NotZone);
             }
 
@@ -466,7 +466,7 @@ impl SqliteAuthority {
 
         // does this authority allow_updates?
         if !self.allow_update {
-            warn!(
+            debug!(
                 "update attempted on non-updatable Authority: {}",
                 self.origin()
             );
@@ -524,7 +524,7 @@ impl SqliteAuthority {
                 return Ok(());
             }
         } else {
-            warn!(
+            debug!(
                 "no sig0 matched registered records: id {}",
                 update_message.id()
             );
@@ -663,7 +663,7 @@ impl SqliteAuthority {
         //  subsequent to a failure of the server.
         if let Some(ref journal) = *self.journal.lock().await {
             if let Err(error) = journal.insert_records(serial, records) {
-                error!("could not persist update records: {}", error);
+                debug!("could not persist update records: {}", error);
                 return Err(ResponseCode::ServFail);
             }
         }
@@ -813,11 +813,11 @@ impl SqliteAuthority {
                 cfg_if::cfg_if! {
                     if #[cfg(feature = "dnssec")] {
                         self.secure_zone().await.map_err(|e| {
-                            error!("failure securing zone: {}", e);
+                            debug!("failure securing zone: {}", e);
                             ResponseCode::ServFail
                         })?
                     } else {
-                        error!("failure securing zone, dnssec feature not enabled");
+                        debug!("failure securing zone, dnssec feature not enabled");
                         return Err(ResponseCode::ServFail)
                     }
                 }

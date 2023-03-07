@@ -8,7 +8,7 @@ use std::iter::Chain;
 use std::slice::Iter;
 use std::vec;
 
-use log::{info, warn};
+use log::{debug, info};
 
 use crate::rr::{DNSClass, Name, RData, Record, RecordType};
 
@@ -312,7 +312,7 @@ impl RecordSet {
                             }
                         }
                         rdata => {
-                            warn!("wrong rdata: {:?}, expected SOA", rdata);
+                            debug!("wrong rdata: {:?}, expected SOA", rdata);
                             return false;
                         }
                     }
