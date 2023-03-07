@@ -18,7 +18,7 @@ use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 use serde::{Deserialize, Serialize};
 
 use enum_as_inner::EnumAsInner;
-use tracing::{trace, warn};
+use tracing::{debug, trace};
 
 use super::domain::Name;
 use super::rdata;
@@ -698,7 +698,7 @@ impl RData {
         {
             let mut encoder: BinEncoder<'_> = BinEncoder::new(&mut buf);
             self.emit(&mut encoder).unwrap_or_else(|_| {
-                warn!("could not encode RDATA: {:?}", self);
+                debug!("could not encode RDATA: {:?}", self);
             });
         }
         buf

@@ -84,7 +84,7 @@ where
 
                 let mut named = named_killer.lock().unwrap();
                 if let Err(e) = named.kill() {
-                    warn!("warning: failed to kill named: {:?}", e);
+                    debug!("warning: failed to kill named: {:?}", e);
                 }
             };
 

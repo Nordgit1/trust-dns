@@ -157,7 +157,7 @@ async fn load_zone(
     let is_dnssec_enabled = zone_config.is_dnssec_enabled();
 
     if zone_config.is_update_allowed() {
-        warn!("allow_update is deprecated in [[zones]] section, it belongs in [[zones.stores]]");
+        debug!("allow_update is deprecated in [[zones]] section, it belongs in [[zones.stores]]");
     }
 
     // load the zone
@@ -165,7 +165,7 @@ async fn load_zone(
         #[cfg(feature = "sqlite")]
         Some(StoreConfig::Sqlite(ref config)) => {
             if zone_path.is_some() {
-                warn!("ignoring [[zones.file]] instead using [[zones.stores.zone_file_path]]");
+                debug!("ignoring [[zones.file]] instead using [[zones.stores.zone_file_path]]");
             }
 
             let mut authority = SqliteAuthority::try_from_config(
@@ -184,7 +184,7 @@ async fn load_zone(
         }
         Some(StoreConfig::File(ref config)) => {
             if zone_path.is_some() {
-                warn!("ignoring [[zones.file]] instead using [[zones.stores.zone_file_path]]");
+                debug!("ignoring [[zones.file]] instead using [[zones.stores.zone_file_path]]");
             }
 
             let mut authority = FileAuthority::try_from_config(
@@ -215,7 +215,7 @@ async fn load_zone(
         }
         #[cfg(feature = "sqlite")]
         None if zone_config.is_update_allowed() => {
-            warn!(
+            debug!(
                 "using deprecated SQLite load configuration, please move to [[zones.stores]] form"
             );
             let zone_file_path = zone_path.ok_or("file is a necessary parameter of zone_config")?;
@@ -559,7 +559,7 @@ fn main() {
                 e
             );
 
-            error!("{}", error_msg);
+            debug!("{}", error_msg);
             panic!("{}", error_msg);
         }
     };
@@ -586,7 +586,7 @@ fn config_tls(
         .collect();
 
     if tls_sockaddrs.is_empty() {
-        warn!("a tls certificate was specified, but no TLS addresses configured to listen on");
+        debug!("a tls certificate was specified, but no TLS addresses configured to listen on");
     }
 
     for tls_listener in &tls_sockaddrs {
@@ -639,7 +639,7 @@ fn config_https(
         .collect();
 
     if https_sockaddrs.is_empty() {
-        warn!("a tls certificate was specified, but no HTTPS addresses configured to listen on");
+        debug!("a tls certificate was specified, but no HTTPS addresses configured to listen on");
     }
 
     for https_listener in &https_sockaddrs {

@@ -15,7 +15,7 @@ use std::task::{Context, Poll};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use futures_util::{future::Future, stream::Stream};
-use tracing::{debug, warn};
+use tracing::debug;
 
 use crate::error::ProtoError;
 use crate::op::message::NoopMessageFinalizer;
@@ -287,7 +287,7 @@ async fn send_serial_message<S: UdpSocket + Send>(
         let request_target = msg.addr();
 
         if response.addr() != request_target {
-            warn!(
+            debug!(
                 "ignoring response from {} because it does not match name_server: {}.",
                 response.addr(),
                 request_target,
@@ -310,7 +310,7 @@ async fn send_serial_message<S: UdpSocket + Send>(
                     }
                 } else {
                     // on wrong id, attempted poison?
-                    warn!(
+                    debug!(
                         "expected message id: {} got: {}, dropped",
                         msg_id,
                         message.id()
@@ -321,7 +321,7 @@ async fn send_serial_message<S: UdpSocket + Send>(
             }
             Err(e) => {
                 // on errors deserializing, continue
-                warn!(
+                debug!(
                     "dropped malformed message waiting for id: {} err: {}",
                     msg_id, e
                 );

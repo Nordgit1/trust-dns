@@ -149,7 +149,7 @@ impl<'a> From<&'a [u8]> for SupportedAlgorithms {
 
         for a in values.iter().map(|i| Algorithm::from_u8(*i)) {
             match a {
-                Algorithm::Unknown(v) => warn!("unrecognized algorithm: {}", v),
+                Algorithm::Unknown(v) => debug!("unrecognized algorithm: {}", v),
                 a => supported.set(a),
             }
         }
