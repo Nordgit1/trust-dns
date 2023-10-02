@@ -56,6 +56,16 @@ impl LookupError {
     pub fn is_refused(&self) -> bool {
         matches!(*self, Self::ResponseCode(ResponseCode::Refused))
     }
+
+    /// This is an Io error
+    pub fn is_io(&self) -> bool {
+        matches!(*self, Self::Io(_))
+    }
+
+    /// This is an unknown error
+    pub fn is_unknown(&self) -> bool {
+        matches!(*self, Self::ResponseCode(ResponseCode::Unknown(_)))
+    }
 }
 
 impl From<ResponseCode> for LookupError {
