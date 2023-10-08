@@ -22,7 +22,7 @@ use futures_util::stream::{Stream, StreamExt};
 use futures_util::{future::Future, ready, FutureExt};
 use rand;
 use rand::distributions::{Distribution, Standard};
-use tracing::{debug, warn};
+use tracing::debug;
 
 use crate::error::*;
 use crate::op::{MessageFinalizer, MessageVerifier};
@@ -199,7 +199,7 @@ where
     /// Closes all outstanding completes with a closed stream error
     fn stream_closed_close_all(&mut self, error: ProtoError) {
         if !self.active_requests.is_empty() {
-            warn!("stream {} error: {}", self.stream, error);
+            debug!("stream {} error: {}", self.stream, error);
         } else {
             debug!("stream {} error: {}", self.stream, error);
         }

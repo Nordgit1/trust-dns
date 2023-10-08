@@ -16,7 +16,7 @@ use std::{
 
 use cfg_if::cfg_if;
 use futures_util::future::{self, TryFutureExt};
-use tracing::{debug, error, warn};
+use tracing::debug;
 
 use tokio::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 
@@ -353,7 +353,7 @@ impl InnerInMemory {
         let soa = match soa {
             Some(soa) => soa,
             None => {
-                error!("could not lookup SOA for authority: {}", origin);
+                debug!("could not lookup SOA for authority: {}", origin);
                 return 0;
             }
         };
@@ -368,7 +368,7 @@ impl InnerInMemory {
         let soa = match soa {
             Some(soa) => soa,
             None => {
-                error!("could not lookup SOA for authority: {}", origin);
+                debug!("could not lookup SOA for authority: {}", origin);
                 return 0;
             }
         };
@@ -541,7 +541,7 @@ impl InnerInMemory {
         let mut record = if let Some(record) = record {
             record
         } else {
-            error!("could not lookup SOA for authority: {}", origin);
+            debug!("could not lookup SOA for authority: {}", origin);
             return 0;
         };
 
@@ -570,7 +570,7 @@ impl InnerInMemory {
     /// true if the value was inserted, false otherwise
     fn upsert(&mut self, record: Record, serial: u32, dns_class: DNSClass) -> bool {
         if dns_class != record.dns_class() {
-            warn!(
+            debug!(
                 "mismatched dns_class on record insert, zone: {} record: {}",
                 dns_class,
                 record.dns_class()
@@ -787,7 +787,7 @@ impl InnerInMemory {
             let tbs = match tbs {
                 Ok(tbs) => tbs,
                 Err(err) => {
-                    error!("could not serialize rrset to sign: {}", err);
+                    debug!("could not serialize rrset to sign: {}", err);
                     continue;
                 }
             };
@@ -796,7 +796,7 @@ impl InnerInMemory {
             let signature = match signature {
                 Ok(signature) => signature,
                 Err(err) => {
-                    error!("could not sign rrset: {}", err);
+                    debug!("could not sign rrset: {}", err);
                     continue;
                 }
             };
@@ -840,7 +840,7 @@ impl InnerInMemory {
 
         // TODO: should this be an error?
         if secure_keys.is_empty() {
-            warn!(
+            debug!(
                 "attempt to sign_zone {} for dnssec, but no keys available!",
                 origin
             )
@@ -1111,7 +1111,7 @@ impl Authority for InMemoryAuthority {
                                             self.class(),
                                         )
                                         // rather than failing the request, we'll just warn
-                                        .map_err(|e| warn!("failed to sign ANAME record: {}", e))
+                                        .map_err(|e| debug!("failed to sign ANAME record: {}", e))
                                         .ok();
                                     }
                                 }
