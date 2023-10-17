@@ -140,8 +140,10 @@ impl<'a> IntoIterator for &'a AuthLookup {
 
 /// An iterator over an Authority Lookup
 #[allow(clippy::large_enum_variant)]
+#[derive(Default)]
 pub enum AuthLookupIter<'r> {
     /// The empty set
+    #[default]
     Empty,
     /// An iteration over a set of Records
     Records(LookupRecordsIter<'r>),
@@ -158,12 +160,6 @@ impl<'r> Iterator for AuthLookupIter<'r> {
             AuthLookupIter::Records(i) => i.next(),
             AuthLookupIter::AXFR(i) => i.next(),
         }
-    }
-}
-
-impl<'a> Default for AuthLookupIter<'a> {
-    fn default() -> Self {
-        AuthLookupIter::Empty
     }
 }
 
@@ -369,6 +365,7 @@ impl<'a> IntoIterator for &'a LookupRecords {
 }
 
 /// Iterator over lookup records
+#[derive(Default)]
 pub enum LookupRecordsIter<'r> {
     /// An iteration over batch record type results
     AnyRecordsIter(AnyRecordsIter<'r>),
@@ -377,13 +374,8 @@ pub enum LookupRecordsIter<'r> {
     /// An iteration over many rrsets
     ManyRecordsIter(Vec<RrsetRecords<'r>>, Option<RrsetRecords<'r>>),
     /// An empty set
+    #[default]
     Empty,
-}
-
-impl<'r> Default for LookupRecordsIter<'r> {
-    fn default() -> Self {
-        LookupRecordsIter::Empty
-    }
 }
 
 impl<'r> Iterator for LookupRecordsIter<'r> {

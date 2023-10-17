@@ -601,19 +601,19 @@ async fn send_authoritative_response(
             Some(additionals) => (answers, additionals),
             None => (
                 answers,
-                Box::new(AuthLookup::default()) as Box<dyn LookupObject>,
+                Box::<AuthLookup>::default() as Box<dyn LookupObject>,
             ),
         },
         None => (
-            Box::new(AuthLookup::default()) as Box<dyn LookupObject>,
-            Box::new(AuthLookup::default()) as Box<dyn LookupObject>,
+            Box::<AuthLookup>::default() as Box<dyn LookupObject>,
+            Box::<AuthLookup>::default() as Box<dyn LookupObject>,
         ),
     };
 
     Ok(LookupSections {
         answers,
-        ns: ns.unwrap_or_else(|| Box::new(AuthLookup::default()) as Box<dyn LookupObject>),
-        soa: soa.unwrap_or_else(|| Box::new(AuthLookup::default()) as Box<dyn LookupObject>),
+        ns: ns.unwrap_or_else(|| Box::<AuthLookup>::default()),
+        soa: soa.unwrap_or_else(|| Box::<AuthLookup>::default()),
         additionals,
     })
 }

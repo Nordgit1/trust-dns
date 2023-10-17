@@ -349,7 +349,6 @@ fn test_create() {
         Duration::minutes(5).whole_seconds() as u32,
     );
     record.set_data(Some(RData::A(Ipv4Addr::new(100, 10, 100, 10))));
-    let record = record;
 
     let result = io_loop
         .block_on(client.create(record.clone(), origin.clone()))
@@ -370,7 +369,6 @@ fn test_create() {
     assert_eq!(result.response_code(), ResponseCode::YXRRSet);
 
     // will fail if already set and not the same value.
-    let mut record = record;
     record.set_data(Some(RData::A(Ipv4Addr::new(101, 11, 101, 11))));
 
     let result = io_loop
@@ -393,7 +391,6 @@ fn test_create_multi() {
         Duration::minutes(5).whole_seconds() as u32,
     );
     record.set_data(Some(RData::A(Ipv4Addr::new(100, 10, 100, 10))));
-    let record = record;
 
     let mut record2 = record.clone();
     record2.set_data(Some(RData::A(Ipv4Addr::new(100, 10, 100, 11))));
@@ -424,7 +421,6 @@ fn test_create_multi() {
     assert_eq!(result.response_code(), ResponseCode::YXRRSet);
 
     // will fail if already set and not the same value.
-    let mut record = record;
     record.set_data(Some(RData::A(Ipv4Addr::new(101, 11, 101, 12))));
 
     let result = io_loop
@@ -859,7 +855,6 @@ fn test_delete_rrset() {
         .expect("create failed");
     assert_eq!(result.response_code(), ResponseCode::NoError);
 
-    let mut record = record;
     record.set_data(Some(RData::A(Ipv4Addr::new(101, 11, 101, 11))));
     let result = io_loop
         .block_on(client.append(record.clone(), origin.clone(), true))
@@ -906,7 +901,6 @@ fn test_delete_all() {
         .expect("create failed");
     assert_eq!(result.response_code(), ResponseCode::NoError);
 
-    let mut record = record;
     record.set_rr_type(RecordType::AAAA);
     record.set_data(Some(RData::AAAA(Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8))));
     let result = io_loop

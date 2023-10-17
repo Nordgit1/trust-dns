@@ -84,7 +84,7 @@ impl SqliteAuthority {
 
         let zone_name: Name = origin;
 
-        let root_zone_dir = root_dir.map(PathBuf::from).unwrap_or_else(PathBuf::new);
+        let root_zone_dir = root_dir.map(PathBuf::from).unwrap_or_default();
 
         // to be compatible with previous versions, the extension might be zone, not jrnl
         let journal_path: PathBuf = root_zone_dir.join(&config.journal_file_path);
@@ -450,8 +450,6 @@ impl SqliteAuthority {
     #[cfg_attr(docsrs, doc(cfg(feature = "dnssec")))]
     #[allow(clippy::blocks_in_if_conditions)]
     pub async fn authorize(&self, update_message: &MessageRequest) -> UpdateResult<()> {
-        use tracing::debug;
-
         use crate::client::rr::rdata::DNSSECRData;
         use crate::proto::rr::dnssec::Verifier;
 
@@ -1015,6 +1013,7 @@ mod tests {
 
     #[test]
     fn test_is_send_sync() {
+        #[allow(clippy::extra_unused_type_parameters)]
         fn send_sync<T: Send + Sync>() -> bool {
             true
         }

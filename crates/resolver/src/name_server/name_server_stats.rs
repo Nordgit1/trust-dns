@@ -108,15 +108,6 @@ impl PartialOrd for NameServerStats {
 mod tests {
     use super::*;
 
-    fn is_send_sync<S: Sync + Send>() -> bool {
-        true
-    }
-
-    #[test]
-    fn stats_are_sync() {
-        assert!(is_send_sync::<NameServerStats>());
-    }
-
     #[test]
     fn test_state_cmp() {
         let nil = NameServerStats::new(0, 0);

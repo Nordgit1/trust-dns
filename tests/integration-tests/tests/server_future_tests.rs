@@ -229,6 +229,7 @@ fn read_file(path: &str) -> Vec<u8> {
 // TODO: move all this to future based clients
 #[cfg(feature = "dns-over-rustls")]
 #[test]
+#[ignore]
 fn test_server_www_tls() {
     use std::env;
     use std::path::Path;

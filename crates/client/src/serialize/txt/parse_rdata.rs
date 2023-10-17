@@ -142,7 +142,7 @@ mod tests {
 
     #[test]
     fn test_a() {
-        let tokens = vec!["192.168.0.1"];
+        let tokens = ["192.168.0.1"];
         let name = Name::from_str("example.com.").unwrap();
         let record =
             RData::parse(RecordType::A, tokens.iter().map(AsRef::as_ref), Some(&name)).unwrap();
@@ -160,7 +160,7 @@ mod tests {
 
     #[test]
     fn test_aaaa() {
-        let tokens = vec!["::1"];
+        let tokens = ["::1"];
         let name = Name::from_str("example.com.").unwrap();
         let record = RData::parse(
             RecordType::AAAA,
@@ -193,7 +193,7 @@ mod tests {
 
     #[test]
     fn test_csync() {
-        let tokens = vec!["123", "1", "A", "NS"];
+        let tokens = ["123", "1", "A", "NS"];
         let name = Name::from_str("example.com.").unwrap();
         let record = RData::parse(
             RecordType::CSYNC,
@@ -264,7 +264,7 @@ mod tests {
 
     #[test]
     fn test_any() {
-        let tokens = vec!["test"];
+        let tokens = ["test"];
         let name = Name::from_str("example.com.").unwrap();
         let result = RData::parse(
             RecordType::ANY,
@@ -289,7 +289,7 @@ mod tests {
             RecordType::RRSIG,
         ];
 
-        let tokens = vec!["test"];
+        let tokens = ["test"];
 
         let name = Name::from_str("example.com.").unwrap();
 

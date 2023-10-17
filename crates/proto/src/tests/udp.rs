@@ -38,7 +38,7 @@ pub async fn udp_stream_test<S: UdpSocket + Send + 'static>(server_addr: IpAddr)
                 }
             }
 
-            println!("Thread Killer has been awoken, killing process");
+            //println!("Thread Killer has been awoken, killing process");
             std::process::exit(-1);
         })
         .unwrap();
@@ -51,7 +51,7 @@ pub async fn udp_stream_test<S: UdpSocket + Send + 'static>(server_addr: IpAddr)
         .set_write_timeout(Some(std::time::Duration::from_secs(5)))
         .unwrap(); // should receive something within 5 seconds...
     let server_addr = server.local_addr().unwrap();
-    println!("server listening on: {}", server_addr);
+    //println!("server listening on: {}", server_addr);
 
     let test_bytes: &'static [u8; 8] = b"DEADBEEF";
     let send_recv_times = 4u32;
@@ -87,11 +87,11 @@ pub async fn udp_stream_test<S: UdpSocket + Send + 'static>(server_addr: IpAddr)
         std::net::SocketAddr::V6(_) => "[::1]:0",
     };
 
-    println!("binding client socket");
+    //println!("binding client socket");
     let socket = S::bind(client_addr.to_socket_addrs().unwrap().next().unwrap())
         .await
         .expect("could not create socket"); // some random address...
-    println!("bound client socket");
+                                            //println!("bound client socket");
 
     let (mut stream, mut sender) = UdpStream::<S>::with_bound(socket, server_addr);
 
@@ -209,11 +209,11 @@ pub fn udp_client_stream_test<S: UdpSocket + Send + 'static, E: Executor, TE: Ti
     let mut stream: UdpClientStream<S> = exec.block_on(stream).ok().unwrap();
     let mut worked_once = false;
 
-    for i in 0..send_recv_times {
+    for _ in 0..send_recv_times {
         // test once
         let response_stream =
             stream.send_message(DnsRequest::new(query.clone(), DnsRequestOptions::default()));
-        println!("client sending request {}", i);
+        //println!("client sending request {}", i);
         let response = match exec.block_on(response_stream.first_answer()) {
             Ok(response) => response,
             Err(err) => {
@@ -221,7 +221,7 @@ pub fn udp_client_stream_test<S: UdpSocket + Send + 'static, E: Executor, TE: Ti
                 continue;
             }
         };
-        println!("client got response {}", i);
+        //println!("client got response {}", i);
 
         let response = Message::from(response);
         if let Some(RData::NULL(null)) = response.answers()[0].data() {

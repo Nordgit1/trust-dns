@@ -550,10 +550,8 @@ impl<T: RequestHandler> ServerFuture<T> {
         let tls_acceptor = TlsAcceptor::from(Arc::new(tls_acceptor));
 
         // for each incoming request...
-        let dns_hostname = dns_hostname;
         let task = tokio::spawn({
             async move {
-                let dns_hostname = dns_hostname;
                 loop {
                     let tcp_stream = listener.accept().await;
                     let (tcp_stream, src_addr) = match tcp_stream {
@@ -638,10 +636,8 @@ impl<T: RequestHandler> ServerFuture<T> {
             QuicServer::with_socket(socket, certificate_and_key.0, certificate_and_key.1)?;
 
         // for each incoming request...
-        let dns_hostname = dns_hostname;
         let task = tokio::spawn({
             async move {
-                let dns_hostname = dns_hostname;
                 loop {
                     let (streams, src_addr) = match server.next().await {
                         Ok(Some(c)) => c,

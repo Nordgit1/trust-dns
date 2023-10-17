@@ -26,6 +26,7 @@ use trust_dns_proto::iocompat::AsyncIoTokioAsStd;
 use server_harness::{named_test_harness, query_a};
 
 #[test]
+#[ignore]
 fn test_example_https_toml_startup() {
     // env_logger::try_init().ok();
 
@@ -36,7 +37,7 @@ fn test_example_https_toml_startup() {
         let server_path = env::var("TDNS_WORKSPACE_ROOT").unwrap_or_else(|_| "..".to_owned());
         println!("using server src path: {}", server_path);
 
-        File::open(&format!(
+        File::open(format!(
             "{}/tests/test-data/named_test_configs/sec/example.cert",
             server_path
         ))

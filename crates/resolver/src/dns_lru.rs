@@ -222,9 +222,7 @@ impl DnsLru {
 
                 let ttl = record.ttl();
 
-                map.entry(query)
-                    .or_insert_with(Vec::default)
-                    .push((record, ttl));
+                map.entry(query).or_default().push((record, ttl));
 
                 map
             },

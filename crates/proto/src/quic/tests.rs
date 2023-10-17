@@ -21,12 +21,12 @@ use crate::{
 use super::quic_server::QuicServer;
 
 async fn server_responder(mut server: QuicServer) {
-    while let Some((mut conn, addr)) = server
+    while let Some((mut conn, _addr)) = server
         .next()
         .await
         .expect("failed to get next quic session")
     {
-        println!("received client request {addr}");
+        //println!("received client request {addr}");
 
         while let Some(stream) = conn.next().await {
             let mut stream = stream.expect("new client stream failed");
@@ -43,11 +43,12 @@ async fn server_responder(mut server: QuicServer) {
 }
 
 #[tokio::test]
+#[ignore] // Expired certificate
 async fn test_quic_stream() {
     let dns_name = "ns.example.com";
 
     let server_path = env::var("TDNS_WORKSPACE_ROOT").unwrap_or_else(|_| "../..".to_owned());
-    println!("using server src path: {}", server_path);
+    //println!("using server src path: {}", server_path);
 
     let ca = tls_server::read_cert(Path::new(&format!(
         "{}/tests/test-data/ca.pem",
@@ -74,7 +75,7 @@ async fn test_quic_stream() {
 
     // kick off the server
     let server_addr = quic_ns.local_addr().expect("no address");
-    println!("testing quic on: {}", server_addr);
+    //println!("testing quic on: {}", server_addr);
     let server_join = tokio::spawn(server_responder(quic_ns));
 
     // now construct the client
@@ -92,13 +93,13 @@ async fn test_quic_stream() {
     let mut builder = QuicClientStreamBuilder::default();
     builder.crypto_config(client_config);
 
-    println!("starting quic connect");
+    //println!("starting quic connect");
     let mut client_stream = builder
         .build(server_addr, dns_name.to_string())
         .await
         .expect("failed to connect");
 
-    println!("connected client to server");
+    //println!("connected client to server");
 
     // create a test message, send and then receive...
     let mut message = Message::default();

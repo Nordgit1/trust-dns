@@ -92,7 +92,7 @@ impl InMemoryAuthority {
             .map(SOA::serial)
             .ok_or_else(|| format!("SOA record must be present: {}", origin))?;
 
-        let iter = records.into_iter().map(|(_key, record)| record);
+        let iter = records.into_values();
 
         // add soa to the records
         for rrset in iter {
@@ -1100,8 +1100,6 @@ impl Authority for InMemoryAuthority {
                                 // if DNSSEC is enabled, and the request had the DO set, sign the recordset
                                 #[cfg(feature = "dnssec")]
                                 {
-                                    use tracing::warn;
-
                                     // ANAME's are constructed on demand, so need to be signed before return
                                     if lookup_options.is_dnssec() {
                                         InnerInMemory::sign_rrset(
@@ -1117,9 +1115,8 @@ impl Authority for InMemoryAuthority {
                                 }
 
                                 // prepend answer to additionals here (answer is the ANAME record)
-                                let additionals = std::iter::once(answer)
-                                    .chain(additionals.into_iter())
-                                    .collect();
+                                let additionals =
+                                    std::iter::once(answer).chain(additionals).collect();
 
                                 // return the new answer
                                 //   because the searched set was an Arc, we need to arc too

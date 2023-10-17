@@ -31,7 +31,7 @@ fn tcp_server_setup(
                 }
             }
 
-            println!("Thread Killer has been awoken, killing process");
+            //println!("Thread Killer has been awoken, killing process");
             std::process::exit(-1);
         })
         .expect("Thread spawning failed");

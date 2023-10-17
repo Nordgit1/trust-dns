@@ -1112,10 +1112,12 @@ mod tests {
 
     use super::*;
 
+    #[allow(clippy::extra_unused_type_parameters)]
     fn is_send_t<T: Send>() -> bool {
         true
     }
 
+    #[allow(clippy::extra_unused_type_parameters)]
     fn is_sync_t<T: Sync>() -> bool {
         true
     }

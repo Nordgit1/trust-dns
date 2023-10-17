@@ -1183,8 +1183,8 @@ mod tests {
         emit(&mut encoder, &rdata).expect("failed to emit SVCB");
         let bytes = encoder.into_bytes();
 
-        println!("svcb: {}", rdata);
-        println!("bytes: {:?}", bytes);
+        //println!("svcb: {}", rdata);
+        //println!("bytes: {:?}", bytes);
 
         let mut decoder: BinDecoder<'_> = BinDecoder::new(bytes);
         let read_rdata =

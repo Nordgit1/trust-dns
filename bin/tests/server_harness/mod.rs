@@ -2,7 +2,6 @@ pub mod mut_message_client;
 
 use std::env;
 use std::io::{stdout, BufRead, BufReader, Write};
-use std::mem;
 use std::net::*;
 use std::panic::{catch_unwind, UnwindSafe};
 use std::process::{Command, Stdio};
@@ -67,7 +66,7 @@ where
 
     println!("server starting");
 
-    let mut named_out = BufReader::new(mem::replace(&mut named.stdout, None).expect("no stdout"));
+    let mut named_out = BufReader::new(named.stdout.take().expect("no stdout"));
 
     // forced thread killer
     let named = Arc::new(Mutex::new(named));
