@@ -33,7 +33,7 @@ jobs:
           toolchain: stable
           override: true
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: cargo install cargo-workspaces
         uses: baptiste0928/cargo-install@v2
@@ -59,7 +59,7 @@ jobs:
           override: true
           components: llvm-tools-preview
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: cargo install cargo-llvm-cov
         uses: baptiste0928/cargo-install@v2
@@ -105,7 +105,7 @@ jobs:
           toolchain: stable
           override: true
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: cargo install cargo-workspaces
         uses: baptiste0928/cargo-install@v2
@@ -135,7 +135,7 @@ jobs:
           toolchain: ${{ matrix.version }}
           override: true
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: cargo install cargo-workspaces
         uses: baptiste0928/cargo-install@v2
@@ -175,7 +175,7 @@ jobs:
           components: rustfmt, clippy
           override: true
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: cargo install cargo-workspaces
         uses: baptiste0928/cargo-install@v2
@@ -208,7 +208,7 @@ jobs:
           toolchain: stable
           override: true
       
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: target/bind cache
         uses: actions/cache@v3
