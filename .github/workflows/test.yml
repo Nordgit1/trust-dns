@@ -36,7 +36,7 @@ jobs:
       - uses: extractions/setup-just@v1
 
       - name: cargo install cargo-workspaces
-        uses: baptiste0928/cargo-install@v2
+        uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-workspaces
           version: ${{ env.CARGO_WS_VERSION }}
@@ -62,7 +62,7 @@ jobs:
       - uses: extractions/setup-just@v1
 
       - name: cargo install cargo-llvm-cov
-        uses: baptiste0928/cargo-install@v2
+        uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-llvm-cov
 
@@ -108,7 +108,7 @@ jobs:
       - uses: extractions/setup-just@v1
 
       - name: cargo install cargo-workspaces
-        uses: baptiste0928/cargo-install@v2
+        uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-workspaces
           version: ${{ env.CARGO_WS_VERSION }}
@@ -138,7 +138,7 @@ jobs:
       - uses: extractions/setup-just@v1
 
       - name: cargo install cargo-workspaces
-        uses: baptiste0928/cargo-install@v2
+        uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-workspaces
           version: ${{ env.CARGO_WS_VERSION }}
@@ -178,7 +178,7 @@ jobs:
       - uses: extractions/setup-just@v1
 
       - name: cargo install cargo-workspaces
-        uses: baptiste0928/cargo-install@v2
+        uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-workspaces
           version: ${{ env.CARGO_WS_VERSION }}
